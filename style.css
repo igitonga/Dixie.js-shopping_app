@@ -1,0 +1,72 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+}
+
+.navbar{
+    background-color: rgb(236, 102, 57);
+    font-weight: 700;
+    color: #fff;
+    font-size: 1.5em;
+}
+
+.content{
+    background-color: bisque;
+    height: 92vh;
+}
+
+.input-cont{
+    display: grid;
+    grid-template-columns: 40% 60%;
+    align-items: center;
+}
+
+.input-cont > label{
+    font-weight: bold;
+}
+
+.addBtn{
+    background: rgb(236, 102, 57);
+    color: #fff;
+}
+
+.items-container .item{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    background: #eaeaea;
+    margin-top: 8px;
+}
+
+.item .info-cont{
+    text-align: center;
+}
+
+input[type=checkbox]{
+    height: 100%;
+    width: 5rem;
+}
+
+.item .close{
+    background: rgb(249, 4, 4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    color: #fff;
+}
+
+.items-container .purchased{
+    background: rgb(236, 102, 57);
+}
+
+.purchased p{
+    text-decoration: line-through;
+}
+
+.totalPrice{
+    font-size: 2em;
+}
