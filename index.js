@@ -5,7 +5,34 @@ db.version(1).stores( {items: '++id, name, price, isPurchased'} )
 
 const itemsForm = document.getElementById('itemsForm')
 const itemsDiv = document.querySelector('.items-container')
-const totalPrice = document.querySelector('.totalPrice')
+const totalPriceText = document.querySelector('.totalPrice')
+
+const populateItemsDiv = async () => {
+    const allItems = await db.items.reverse().toArray()
+
+    itemsDiv.innerHTML = allItems.map(item => `
+        <div class="item ${item.isPurchased && 'purchased'}">
+            <div class="checkbox-cont">
+            <input type="checkbox"  ${item.isPurchased && 'checked'}>
+            </div>
+            <div class="info-cont">
+                <p>${item.name}</p>
+                <p>Ksh.${item.price} * ${item.quantity}</p>
+            </div>
+            <div class="close">
+                <i class="fa fa-close"></i>
+            </div>
+        </div>
+    `).join('')
+
+    const arrayOfPrices = allItems.map(item => item.price * item.quantity)
+    const totalPrice =  arrayOfPrices.reduce((a, b) => a + b, 0) 
+
+    totalPriceText.innerText = "KSh." + totalPrice
+}
+
+//load items added
+window.onload = populateItemsDiv
 
 itemsForm.onsubmit = async (event) => {
     event.preventDefault()
@@ -16,4 +43,6 @@ itemsForm.onsubmit = async (event) => {
 
     await db.items.add({name, quantity, price})
     itemsForm.reset()
+
+    await populateItemsDiv()
 }
