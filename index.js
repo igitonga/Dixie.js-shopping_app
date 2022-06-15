@@ -7,13 +7,14 @@ const itemsForm = document.getElementById('itemsForm')
 const itemsDiv = document.querySelector('.items-container')
 const totalPriceText = document.querySelector('.totalPrice')
 
+//populate data from indexDB to item div
 const populateItemsDiv = async () => {
     const allItems = await db.items.reverse().toArray()
 
     itemsDiv.innerHTML = allItems.map(item => `
         <div class="item ${item.isPurchased && 'purchased'}">
             <div class="checkbox-cont">
-            <input type="checkbox"  ${item.isPurchased && 'checked'}>
+            <input type="checkbox" onchange="checkedItem(event, ${item.id})"  ${item.isPurchased && 'checked'}>
             </div>
             <div class="info-cont">
                 <p>${item.name}</p>
@@ -34,6 +35,7 @@ const populateItemsDiv = async () => {
 //load items added
 window.onload = populateItemsDiv
 
+//submit data to IndexDB
 itemsForm.onsubmit = async (event) => {
     event.preventDefault()
 
@@ -44,5 +46,12 @@ itemsForm.onsubmit = async (event) => {
     await db.items.add({name, quantity, price})
     itemsForm.reset()
 
+    //load items added
+    await populateItemsDiv()
+}
+
+//cross item when checked
+const checkedItem = async (event, id) => {
+    await db.items.update(id, {isPurchased: !!event.target.checked})
     await populateItemsDiv()
 }
