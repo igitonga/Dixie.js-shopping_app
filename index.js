@@ -20,7 +20,7 @@ const populateItemsDiv = async () => {
                 <p>${item.name}</p>
                 <p>Ksh.${item.price} * ${item.quantity}</p>
             </div>
-            <div class="close">
+            <div class="close" onclick="deleteItem(${item.id})">
                 <i class="fa fa-close"></i>
             </div>
         </div>
@@ -53,5 +53,11 @@ itemsForm.onsubmit = async (event) => {
 //cross item when checked
 const checkedItem = async (event, id) => {
     await db.items.update(id, {isPurchased: !!event.target.checked})
+    await populateItemsDiv()
+}
+
+//delete item
+const deleteItem = async(id) => {
+    await db.items.delete(id)
     await populateItemsDiv()
 }
